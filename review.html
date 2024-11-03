@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyoncé's Boutique - Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        nav {
+            background: #c3f708;
+            color: #fff;
+            padding: 2em;
+            text-align: center;
+        }
+
+        nav a {
+            color: #11051d;
+            margin: 0 30px;
+            font-size:30px ;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1em;
+        }
+        h4{
+            font-size: 30px;
+        }
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2em;
+        }
+
+        input, textarea {
+            width: 95%;
+            padding: 1em; /* Larger padding for bigger input boxes */
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 35px;
+            font-size: 1.5em; /* Slightly larger font */
+        }
+
+        button {
+            background: #ffbbcc;
+            border-radius: 10px;
+            padding: 1em; /* Increased button size */
+            cursor: pointer;
+            font-size: 1.1em; /* Slightly larger button font */
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #ff99b2;
+        }
+
+        .reviews {
+            flex: 1;
+            overflow-y: auto; /* Allow scrolling if needed */
+            margin-top: 2em;
+        }
+
+        .review-item {
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .review-item h4 {
+            margin: 0;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-size: 20px;
+        }
+
+        .review-content {
+            margin: 0.5em 0;
+            font-size:30px
+        }
+
+        footer {
+            text-align: center;
+            font-size : 20px;
+            padding: 1em;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Shop</a>
+    </nav>
+
+    <div class="container">
+        <h2>Reviews & Ratings</h2>
+
+        <!-- Review Form -->
+        <div class="review-form">
+            <h3>Leave a Review</h3>
+            <input type="text" id="username" placeholder="Your Name" required>
+            <input type="number" id="rating" placeholder="Rating (1-5)" min="1" max="5" required>
+            <textarea id="reviewText" rows="6" placeholder="Write your review here..." required></textarea>
+            <button onclick="submitReview()">Submit Review</button>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews" id="reviews">
+            <h3>Customer Reviews</h3>
+            <div class="review-item">
+                <h4>Rohan</h4>
+                <p class="rating">Rating: ★★★★★</p>
+                <p class="review-content">Absolutely love this product! Great quality and style.</p>
+            </div>
+            <div class="review-item">
+                <h4>Pappu Singh</h4>
+                <p class="rating">Rating: ★★★★☆</p>
+                <p class="review-content">Very nice, but could use a bit more variety in colors.</p>
+            </div>
+            <!-- Existing reviews will be displayed here -->
+        </div>
+    </div>
+
+    <footer>&copy; 2024 Hercules Fashion</footer>
+
+    <script>
+        const reviews = [
+            { name: "Rohan", rating: 5, content: "Absolutely love this product! Great quality and style." },
+            { name: "Pappu Singh", rating: 4, content: "Very nice, but could use a bit more variety in colors." }
+        ];
+
+        // Display existing reviews
+        function displayReviews() {
+            const reviewSection = document.getElementById('reviews');
+            reviewSection.innerHTML = "<h3>Customer Reviews</h3>";
+            reviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+                reviewItem.innerHTML = `
+                    <h4>${review.name}</h4>
+                    <p class="rating">Rating: ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
+                    <p class="review-content">${review.content}</p>
+                `;
+                reviewSection.appendChild(reviewItem);
+            });
+        }
+
+        // Submit new review
+        function submitReview() {
+            const name = document.getElementById('username').value;
+            const rating = document.getElementById('rating').value;
+            const content = document.getElementById('reviewText').value;
+
+            if (!name || !rating || !content) {
+                alert("Please fill out all fields before submitting your review.");
+                return;
+            }
+
+            // Add new review to the list and display it
+            reviews.push({ name, rating: parseInt(rating), content });
+            displayReviews();
+
+            // Clear the form
+            document.getElementById('username').value = '';
+            document.getElementById('rating').value = '';
+            document.getElementById('reviewText').value = '';
+        }
+
+        // Initialize with existing reviews
+        displayReviews();
+    </script>
+</body>
+</html>

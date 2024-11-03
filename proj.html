@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyoncé's Boutique</title>
+  <style>
+    /* CSS Styles */
+    body {
+      font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, sans-serif;
+      background: linear-gradient(to right, #170304, #fad0c4); /* Soft pink gradient */
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+      color: #b9e713;
+    }
+
+    header {
+  background: #110915; /* Dark background for header */
+  color: #ffefdb; /* Light color for text */
+  padding: 1.5em;
+  text-align: center;
+  border-bottom: 4px solid #ff8e42; /* Accent color */
+}
+
+h1 {
+  margin: 0;
+  font-size: 80px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff; /* White background for main container */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(227, 242, 14, 0.1);
+}
+
+/* Product Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+}
+
+/* Product Card */
+.product {
+  background-color: #021211; /* Light gray background for product cards */
+  padding: 20px;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(214, 20, 114, 0.2);
+  transition: transform 0.3s;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.product img:hover {
+  transform: scale(1.05);
+}
+
+.product-info h2 {
+  margin: 10px 0 5px;
+  font-size: 40px;
+  color: #90f012;
+}
+
+.product-info p {
+  font-size: 25px;
+  margin: 5px 0;
+}
+
+
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-section input, .filter-section select {
+  padding: 10px;
+  font-size: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Wishlist & Cart */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.buttons button {
+  padding: 20px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.wishlist {
+  background-color: #050404; /* Wishlist button color */
+  color: white;
+  font-size: 20px;
+}
+
+.wishlist:hover {
+  background-color: #ff7a30; /* Hover color for wishlist button */
+}
+
+.cart {
+  background-color: #1dbf73; /* Cart button color */
+  color: white;
+  font-size: 20px;
+}
+
+.cart:hover {
+  background-color: #1aa965; /* Hover color for cart button */
+}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Hercules Fashion</h1>
+    <p>Discover the latest pop-culture-inspired streetwear!</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Search & Filter -->
+    <div class="filter-section">
+      <input type="text" id="search" placeholder="Search by keyword..." oninput="filterProducts()">
+      <select id="category" onchange="filterProducts()">
+        <option value="all">All Styles</option>
+        <option value="hip-hop">Hip-Hop</option>
+        <option value="punk">Punk</option>
+        <option value="k-pop">K-Pop</option>
+      </select>
+    </div>
+
+    <!-- Product Listings Grid -->
+    <div id="products" class="products-grid">
+      <!-- 50 Product Items -->
+      <script>
+        const productsContainer = document.getElementById("products");
+        const categories = ["hip-hop", "punk", "k-pop"];
+        
+        const images = [
+          "neon tracksui.jpg",
+          "graffti.webp",
+          "shopping.webp",
+          "cap.webp",
+          "tee.jpg",
+          "jack.webp",
+          "jean.webp",
+          "shoe.jpg",
+          "tie.jpg",
+          "skin.jpg"
+        ];
+
+        for (let i = 1; i <= 10; i++) {
+          // Random category and image for each product
+          const category = categories[Math.floor(Math.random() * categories.length)];
+          const image = images[i % images.length]; // Rotate through the images
+          const productHTML = `
+            <div class="product" data-category="${category}">
+              <img src="${image}" alt="Product Image">
+              <div class="product-info">
+                <h2>Product ${i}</h2>
+                <p>${category.charAt(0).toUpperCase() + category.slice(1)}-inspired fashion item.</p>
+                <p>Price: ₹ ${(Math.random() * 100 + 20).toFixed(2)}</p>
+                <div class="buttons">
+                  <button class="wishlist" onclick="addToWishlist('Product ${i}')">Wishlist</button>
+                  <button class="cart" onclick="addToCart('Product ${i}')">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          `;
+          productsContainer.innerHTML += productHTML;
+        }
+      </script>
+    </div>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Filter Products by Search and Category
+    function filterProducts() {
+      const searchInput = document.getElementById("search").value.toLowerCase();
+      const category = document.getElementById("category").value;
+      const products = document.querySelectorAll(".product");
+
+      products.forEach(product => {
+        const title = product.querySelector("h2").textContent.toLowerCase();
+        const productCategory = product.getAttribute("data-category");
+
+        const matchesSearch = title.includes(searchInput);
+        const matchesCategory = category === "all" || productCategory === category;
+
+        if (matchesSearch && matchesCategory) {
+          product.style.display = "block";
+        } else {
+          product.style.display = "none";
+        }
+      });
+    }
+
+    // Add to Wishlist
+    function addToWishlist(item) {
+      alert(`${item} added to your Wishlist!`);
+    }
+
+    // Add to Cart
+    function addToCart(item) {
+      alert(`${item} added to your Cart!`);
+    }
+  </script>
+</body>
+</html>
